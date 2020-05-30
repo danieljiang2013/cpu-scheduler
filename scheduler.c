@@ -53,5 +53,13 @@ int main(int argc, char* argv[]){
     
     //read the processes onto a "disk" which is a linked list of all the processes that will be run
     Process* disk = read_processes_to_disk(filename);
+    //traverse the disk list
+
+    Process* p = disk;
+    while(p!=NULL){
+        printf("pid: %d\n",p->pid);
+        p=p->next;
+    }
+
 
 }
