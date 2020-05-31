@@ -15,10 +15,11 @@ Process* create_process(int time_arrived, int pid, int mem_size, int job_time){
     p->mem_size = mem_size;
     p->job_time = job_time;
     p->job_time_remaining = job_time;
-    
+
+    p->next = NULL;
+    p->prev = NULL;
     return p;
 }
-
 
 /*** reads list of processes from input file and stores them as a linked list of Processes, meant to simulate a disk. 
 ***  Should only be called once at start of simulation
@@ -49,7 +50,7 @@ Process* read_processes_to_disk(char* filename ){
             disk_head = current_process;
         }
 
-        //add current process onto end of disk list
+        //add currently read process to end of disk linked list
         else{
             Process* temp = disk_head;
             while(temp->next!=NULL){
@@ -58,9 +59,11 @@ Process* read_processes_to_disk(char* filename ){
             current_process = create_process(time_arrived, pid, mem_size, job_time);
             current_process->next = NULL;
             temp->next = current_process;
-            
         }
 
     }
+    fclose(fp);
+
     return disk_head;
 }
+

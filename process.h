@@ -8,6 +8,7 @@ typedef struct process_t{
     int mem_size;
     int job_time;
     int job_time_remaining;
+    int memory_insert_time; //what time the process was put into memory
 
     struct process_t* prev;
     struct process_t* next;
