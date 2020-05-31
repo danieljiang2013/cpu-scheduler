@@ -18,10 +18,10 @@ Memory* initialize_memory(int mem_size){
 void insert_in_memory(Memory* m, Process* p, int current_time){
 
     Process* head = m->process_queue_head;   
-       
+
     //if memory is empty, insert at head
     if (head == NULL){
-        printf("memory is empty\n");
+
         head = p;
         head->next = NULL;
         head->prev = NULL;
@@ -35,7 +35,6 @@ Memory* load_disk_to_memory(Process* disk, Memory* memory, int num_processes, in
     
     //if num_processes = -1, no limit, load all processes into memory
     if (num_processes==-1){
-        printf("unlimited memory!\n");
         memory->process_queue_head = disk;
 
         Process* temp = memory->process_queue_head;

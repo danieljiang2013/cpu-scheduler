@@ -49,11 +49,11 @@ int main(int argc, char* argv[]){
                 break;
         }
     }
-
+    /**
     printf("filename: %s\n",filename);
     printf("algorithm: %s\n",algo);
     printf("mem_algo: %s\n",mem_algo);
-
+    **/
     //create memory of specified size
     Memory* memory = initialize_memory(mem_size);
 
@@ -90,7 +90,7 @@ void scheduler_simulation(Process* disk, char* algo, char* mem_algo, Memory* mem
         //load all processes from disk into memory
         load_disk_to_memory(disk, memory, -1, clock);
     }
-
+    double max_overhead = 0, avg_overhead = 0, current_overhead = 0, total_overhead = 0;
     int turnaround_total = 0;
     int finish_times[total_processes]; //keep track of process finishing times
 
@@ -109,6 +109,10 @@ void scheduler_simulation(Process* disk, char* algo, char* mem_algo, Memory* mem
 
             //current process has finished, calculate statistics and move onto next
             finish_times[total_processes-remaining_processes] = clock;
+            current_overhead = (double)(clock - temp->time_arrived) / (double)temp->job_time;
+            total_overhead+=current_overhead;
+            if (current_overhead > max_overhead){
+                max_overhead=current_overhead;}
 
             remaining_processes--;
             printf("%d, FINISHED, id=%d, proc-remaining=%d\n",clock, temp->pid, remaining_processes);
@@ -155,14 +159,9 @@ void scheduler_simulation(Process* disk, char* algo, char* mem_algo, Memory* mem
     printf("Throughput %d, %d, %d\n", avg_throughput, min_througput, max_througput);
     //average turnaround time rounded up to nearest integer
     printf("Turnaround time %d\n",(turnaround_total+total_processes-1)/total_processes);
-
-
     //Calculate maximum and average overhead time (rounded to 2 decimal), overhead = turnaround / job time
-    
-    printf("Time overhead %d %d\n", max_overhead, avg_overhead)
-    /**
-    printf("\nThroughput \n");
-    printf("Turnaround Time \nTime overhead \n");
+    avg_overhead = total_overhead / total_processes;
+    printf("Time overhead %.2f %.2f\n", max_overhead, avg_overhead);
     printf("Makespan %d",clock);
-    **/
+
 }
